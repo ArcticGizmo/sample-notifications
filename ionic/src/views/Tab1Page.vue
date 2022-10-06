@@ -5,6 +5,8 @@
     <br />
     <ion-button @click="onRegisterDevice()">Register Device</ion-button>
     <ion-button @click="onUnregisterDevice()">Unregister Device</ion-button>
+    <br />
+    <ion-button @click="onClearBackgroundNotification()">Clear Background notification</ion-button>
   </BasePage>
 </template>
 
@@ -35,6 +37,19 @@ const onUnregisterDevice = async () => {
   await Http.unregisterFirebaseToken(deviceAlias);
   await NotificationClient.deleteToken();
   await toast('Unregistered');
+};
+
+const onClearBackgroundNotification = async () => {
+  // TODO: fix for native
+  const notifications = await NotificationClient.getDeliveredNotifications();
+  const first = notifications[0] as any;
+  if (!first) {
+    await toast('No more notifications');
+    return;
+  }
+
+  first.close();
+  await toast('Closed notification');
 };
 </script>
 
