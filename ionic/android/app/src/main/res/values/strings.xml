@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ionic Notifications</string>
+    <string name="title_activity_main">Ionic Notifications</string>
+    <string name="package_name">com.github.arcticgizmo.samplenotifications</string>
+    <string name="custom_url_scheme">com.github.arcticgizmo.samplenotifications</string>
+</resources>
