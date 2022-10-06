@@ -1,14 +1,26 @@
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import type { Notification, NotificationActionPerformedListener } from '@capacitor-firebase/messaging';
-import { toast } from '@/helpers/util';
+import { toastController } from '@ionic/vue';
+
+async function notify(e: Notification) {
+  console.log('Got notification', e);
+  const { body, title } = e;
+
+  const t = await toastController.create({
+    // styling is provided at a global level (see src/theme/notifications.css)
+    cssClass: 'notification-toast',
+    header: title,
+    message: body,
+    duration: 3000,
+    position: 'bottom'
+  });
+
+  await t.present();
+}
 
 export abstract class BaseNotificationClient {
   constructor() {
-    this.onNotificationReceived(e => {
-      console.dir('--- got notification');
-      console.dir(e);
-      toast('Got notification');
-    });
+    this.onNotificationReceived(notify);
   }
 
   async requestPermissions() {

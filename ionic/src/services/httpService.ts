@@ -10,11 +10,11 @@ class HttpService {
   }
 
   async registerFirebaseToken(alias: string, key: string) {
-    return this._w('firebase/register').post({ alias, key });
+    return this._w('mobile/register').post({ alias, key });
   }
 
   async unregisterFirebaseToken(alias: string) {
-    return this._w('firebase/register').post({ alias });
+    return this._w('mobile/register').post({ alias });
   }
 }
 

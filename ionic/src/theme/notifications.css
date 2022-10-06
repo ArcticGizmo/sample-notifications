@@ -1,0 +1,5 @@
+.notification-toast::part(header) {
+  font-size: 1.5rem;
+  color: 'white';
+  margin-bottom: 1rem;
+}
