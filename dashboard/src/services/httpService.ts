@@ -36,6 +36,12 @@ interface MessagePayload {
   notification?: NotificationData;
 }
 
+interface CourierPayload {
+  subject: string;
+  name: string;
+  payload: string;
+}
+
 class HttpService {
   _base = 'http://localhost:3000';
 
@@ -54,6 +60,14 @@ class HttpService {
 
   async sendFirebaseBroadcast(topic: string, data: MessageData, notification: NotificationData) {
     return this._w('firebase/broadcast').post({ topic, data, notification });
+  }
+
+  async sendCourierPush(alias: string, payload: CourierPayload) {
+    return this._w('courier').post({ ...payload, alias });
+  }
+
+  async sendCourierEmail(email: string, payload: CourierPayload) {
+    return this._w('courier/email').post({ ...payload, email });
   }
 }
 

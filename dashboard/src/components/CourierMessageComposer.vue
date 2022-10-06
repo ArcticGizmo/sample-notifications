@@ -1,17 +1,17 @@
 <template>
-  <div class="firebase-message-composer">
+  <div class="courier-message-composer">
     <div class="form">
       <div>
-        <label>Heading</label>
-        <input v-model="heading" />
+        <label>Subject</label>
+        <input v-model="subject" />
       </div>
       <div>
-        <label>Message</label>
-        <input v-model="message" />
+        <label>Name</label>
+        <input v-model="name" />
       </div>
       <div>
-        <label>Data</label>
-        <input v-model="data" />
+        <label>Payload</label>
+        <textarea v-model="payload"></textarea>
       </div>
     </div>
 
@@ -25,36 +25,36 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-export interface FirebaseComposerPayload {
-  heading: string;
-  message: string;
-  data: string;
+export interface CourierComposerPayload {
+  subject: string;
+  name: string;
+  payload: string;
 }
 
 const emits = defineEmits<{
-  (e: 'send', payload: FirebaseComposerPayload): void;
+  (e: 'send', payload: CourierComposerPayload): void;
 }>();
 
-const heading = ref('');
-const message = ref('');
-const data = ref('');
+const subject = ref('');
+const name = ref('');
+const payload = ref('');
 
 const onSend = () => {
   emits('send', {
-    heading: heading.value,
-    message: message.value,
-    data: data.value
+    subject: subject.value,
+    name: name.value,
+    payload: payload.value
   });
 };
 const onReset = () => {
-  heading.value = '';
-  message.value = '';
-  data.value = '';
+  subject.value = '';
+  name.value = '';
+  payload.value = '';
 };
 </script>
 
 <style scoped>
-.firebase-message-composer {
+.courier-message-composer {
   width: 500px;
   max-width: 500px;
   box-shadow: 1px 1px 5px;

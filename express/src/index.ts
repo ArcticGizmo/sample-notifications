@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 import { mobileRouter } from './routes/mobile';
 import { firebaseRouter } from './routes/firebase';
+import { courierRouter } from './routes/courier';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/mobile', mobileRouter);
 app.use('/firebase', firebaseRouter);
+app.use('/courier', courierRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

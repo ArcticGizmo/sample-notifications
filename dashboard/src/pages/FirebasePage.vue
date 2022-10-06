@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import FirebaseMessageComposer, { ComposerPayload } from '@/components/FirebaseMessageComposer.vue';
+import FirebaseMessageComposer, { FirebaseComposerPayload } from '@/components/FirebaseMessageComposer.vue';
 import { Http } from '@/services/httpService';
 import { onMounted, ref } from 'vue';
 import { useToast } from 'vue-toastification';
@@ -46,7 +46,7 @@ const refreshAliases = async () => {
 
 const onSelectAlias = (alias: string) => (selectedAlias.value = alias);
 
-const onSendToDevice = async (payload: ComposerPayload) => {
+const onSendToDevice = async (payload: FirebaseComposerPayload) => {
   if (!selectedAlias.value) {
     toast.warning('No alias selected!');
     return;
@@ -57,12 +57,12 @@ const onSendToDevice = async (payload: ComposerPayload) => {
     { data: payload.data },
     { title: payload.heading, body: payload.message }
   );
-  toast.success(`Message sent to '${selectedAlias.value}'!`, { timeout: 1000 });
+  toast.success(`Message sent to '${selectedAlias.value}'!`, { timeout: 2000 });
 };
 
-const onBroadcast = async (payload: ComposerPayload) => {
+const onBroadcast = async (payload: FirebaseComposerPayload) => {
   await Http.sendFirebaseBroadcast(TOPIC, { data: payload.data }, { title: payload.heading, body: payload.message });
-  toast.success(`Message broadcast to '${selectedAlias.value}'!`, { timeout: 1000 });
+  toast.success(`Message broadcast to '${selectedAlias.value}'!`, { timeout: 2000 });
 };
 
 onMounted(() => {
