@@ -51,6 +51,10 @@ class HttpService {
   async sendFirebasePush(alias: string, data: MessageData, notification: NotificationData) {
     return this._w('firebase').post({ alias, data, notification });
   }
+
+  async sendFirebaseBroadcast(topic: string, data: MessageData, notification: NotificationData) {
+    return this._w('firebase/broadcast').post({ topic, data, notification });
+  }
 }
 
 export const Http = new HttpService();
