@@ -40,16 +40,15 @@ const onUnregisterDevice = async () => {
 };
 
 const onClearBackgroundNotification = async () => {
-  // TODO: fix for native
   const notifications = await NotificationClient.getDeliveredNotifications();
-  const first = notifications[0] as any;
+  const first = notifications[0];
   if (!first) {
     await toast('No more notifications');
     return;
   }
 
-  first.close();
-  await toast('Closed notification');
+  await NotificationClient.removeDeliveredNotifications([first]);
+  await toast(`Closed notification ${first.id} - ${first.tag || '--no tag--'}`);
 };
 </script>
 

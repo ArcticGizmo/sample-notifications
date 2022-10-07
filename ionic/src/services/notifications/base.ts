@@ -2,6 +2,21 @@ import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import type { Notification, NotificationActionPerformedListener } from '@capacitor-firebase/messaging';
 import { toastController } from '@ionic/vue';
 
+export interface BackgroundNotification {
+  id?: string;
+  title?: string;
+  body?: string;
+  tag?: string;
+  data: {
+    [key: string]: any;
+  };
+}
+
+export interface NotificationRef {
+  id?: string;
+  tag?: string;
+}
+
 async function notify(e: Notification) {
   console.log('Got notification', e);
   const { body, title } = e;
@@ -48,8 +63,8 @@ export abstract class BaseNotificationClient {
     return resp.notifications;
   }
 
-  async removeDeliveredNotifications(notifications: Notification[]) {
-    await FirebaseMessaging.removeDeliveredNotifications({ notifications });
+  async removeDeliveredNotifications(refs: NotificationRef[]) {
+    await FirebaseMessaging.removeDeliveredNotifications({ notifications: refs });
   }
 
   async removeAllDeliveredNotifications(): Promise<void> {

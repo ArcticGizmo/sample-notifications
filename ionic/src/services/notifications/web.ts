@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import type { FirebaseOptions } from 'firebase/app';
-import { BaseNotificationClient } from './base';
+import { BackgroundNotification, BaseNotificationClient, NotificationRef } from './base';
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env['VUE_APP_FIREBASE_API_KEY'],
@@ -25,6 +25,16 @@ async function getSafeServiceWorker() {
     });
 }
 
+function parseBackgroundNotification(raw: Notification, id: number): BackgroundNotification {
+  return {
+    id: `${id}`,
+    title: raw.title,
+    body: raw.body,
+    tag: raw.tag,
+    data: raw.data?.FCM_MSG?.data
+  };
+}
+
 export class NotificationWebClient extends BaseNotificationClient {
   constructor() {
     super();
@@ -34,7 +44,7 @@ export class NotificationWebClient extends BaseNotificationClient {
       .catch(() => undefined);
   }
 
-  async getDeliveredNotifications() {
+  private async getBackgroundNotifications() {
     const sw = await getSafeServiceWorker();
     if (!sw) {
       return [];
@@ -42,8 +52,25 @@ export class NotificationWebClient extends BaseNotificationClient {
     return await sw.getNotifications();
   }
 
-  async removeDeliveredNotifications() {
-    // stubbed as not available
-    return;
+  async getDeliveredNotifications() {
+    return this.getBackgroundNotifications().then(notifications => {
+      return notifications.map(parseBackgroundNotification);
+    });
+  }
+
+  async removeDeliveredNotifications(refs: NotificationRef[]) {
+    const ids = refs.map(r => r.id);
+    this.getBackgroundNotifications().then(notifications => {
+      notifications.forEach((notification, index) => {
+        if (ids.includes(`${index}`)) {
+          notification.close();
+        }
+      });
+    });
+  }
+
+  async removeAllDeliveredNotifications(): Promise<void> {
+    const notifications = await this.getBackgroundNotifications();
+    notifications.forEach(n => n.close());
   }
 }
