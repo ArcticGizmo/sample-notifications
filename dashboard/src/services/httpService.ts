@@ -42,6 +42,12 @@ interface CourierPayload {
   payload: string;
 }
 
+interface MagicBellPayload {
+  title: string;
+  content: string;
+  payload: string;
+}
+
 class HttpService {
   _base = 'http://localhost:3000';
 
@@ -68,6 +74,14 @@ class HttpService {
 
   async sendCourierEmail(email: string, payload: CourierPayload) {
     return this._w('courier/email').post({ ...payload, email });
+  }
+
+  async sendMagicBellPush(email: string, payload: MagicBellPayload) {
+    return this._w('magicbell').post({ ...payload, email });
+  }
+
+  async sendMagicBellEmail(email: string, payload: MagicBellPayload) {
+    return this._w('magicbell/email').post({ ...payload, email });
   }
 }
 
