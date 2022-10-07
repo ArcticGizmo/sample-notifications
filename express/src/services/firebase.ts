@@ -2,7 +2,12 @@ import { applicationDefault, initializeApp } from 'firebase-admin/app';
 import type { App, AppOptions } from 'firebase-admin/app';
 import { getMessaging } from 'firebase-admin/messaging';
 import * as fs from 'fs';
-import type { Messaging, MessagingPayload, MessagingOptions, Message } from 'firebase-admin/messaging';
+import type {
+  Messaging,
+  MessagingPayload,
+  MessagingOptions,
+  Message
+} from 'firebase-admin/messaging';
 
 const REGISTRATION_FILE = './registration.json';
 
@@ -78,7 +83,6 @@ class FirebaseNotifications {
     const token = this._lookup[alias];
 
     if (!token) {
-      console.error(`[Firebase] No alias found for '${alias}'`);
       return;
     }
     return this._messaging.unsubscribeFromTopic(token, topic);
@@ -87,11 +91,13 @@ class FirebaseNotifications {
   register(alias: string, key: string) {
     this._lookup[alias] = key;
     this.saveRegistration();
+    console.log(`[Firebase] Registered alias '${alias}'`);
   }
 
   unregister(alias: string) {
     delete this._lookup[alias];
     this.saveRegistration();
+    console.log(`[Firebase] Unregistered alias '${alias}'`);
   }
 
   getAliases() {

@@ -10,11 +10,12 @@ class HttpService {
   }
 
   async registerFirebaseToken(alias: string, key: string) {
-    return this._w('mobile/register').post({ alias, key });
+    const platform = isNative ? 'android' : 'safari';
+    return this._w('mobile/register').post({ alias, key, platform });
   }
 
   async unregisterFirebaseToken(alias: string) {
-    return this._w('mobile/register').post({ alias });
+    return this._w('mobile/unregister').post({ alias });
   }
 }
 
