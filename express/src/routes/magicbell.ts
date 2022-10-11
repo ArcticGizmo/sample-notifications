@@ -28,4 +28,8 @@ router.post('/email', async (req: Request, res: Response) => {
   await send('email', req, res);
 });
 
+router.post('/in-app', async (req: Request, res: Response) => {
+  await send('in-app', req, res);
+});
+
 export { router as magicbellRouter };

@@ -21,7 +21,7 @@ import { Http } from '@/services/httpService';
 import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
 
-const categories = ['Device', 'Email'];
+const categories = ['Device', 'Email', 'In-App'];
 
 const toast = useToast();
 const selectedCategory = ref(categories[0]);
@@ -29,11 +29,16 @@ const selectedCategory = ref(categories[0]);
 const onSelectCategory = (cat: string) => (selectedCategory.value = cat);
 
 const onSend = async (payload: MagicBellComposerPayload) => {
-  if (selectedCategory.value === 'Device') {
-    sendToDevice(payload);
-    return;
+  switch (selectedCategory.value) {
+    case 'Email':
+      await sendToEmail(payload);
+      return;
+    case 'In-App':
+      await sendToApp(payload);
+      return;
+    default:
+      await sendToDevice(payload);
   }
-  sendToEmail(payload);
 };
 
 const sendToDevice = async (payload: MagicBellComposerPayload) => {
@@ -48,6 +53,13 @@ const sendToEmail = async (payload: MagicBellComposerPayload) => {
 
   await Http.sendMagicBellEmail(email, rest);
   toast.success(`Email sent to '${email}'!`, { timeout: 2000 });
+};
+
+const sendToApp = async (payload: MagicBellComposerPayload) => {
+  const { email, ...rest } = payload;
+
+  await Http.sendMagicBellInApp(email, rest);
+  toast.success(`In-App sent to '${email}'!`, { timeout: 2000 });
 };
 </script>
 

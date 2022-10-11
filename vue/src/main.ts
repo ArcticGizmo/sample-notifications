@@ -8,6 +8,13 @@ import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
+import { Courier } from '@/components/courier';
+
+Courier.init({
+  clientKey: import.meta.env['VITE_COURIER_CLIENT_KEY'],
+  userId: 'Github_18655632'
+});
+
 const app = createApp(App).use(router).use(Toast);
 
 app.component('Icon', Icon);

@@ -1,21 +1,10 @@
 import { CourierClient } from '@trycourier/courier';
 import type { MessageRecipient, MessageData } from '@trycourier/courier/lib/send/types';
 
-interface EmailData extends MessageData {
-  subject: string;
-  name: string;
-  payload: string;
-}
-
-interface PushData extends MessageData {
-  subject: string;
-  name: string;
-  payload: string;
-}
-
 const TEMPLATES = {
   push: process.env['COURIER_PUSH_NOTIFICATION_TEMPLATE'],
-  email: process.env['COURIER_EMAIL_TEMPLATE']
+  email: process.env['COURIER_EMAIL_TEMPLATE'],
+  inapp: process.env['COURIER_IN_APP_TEMPLATE']
 };
 
 const authorizationToken = process.env['COURIER_API_KEY'];
@@ -34,12 +23,25 @@ class CourierNotifications {
     return client.send({ message });
   }
 
-  async sendEmailNotification(to: MessageRecipient, data: EmailData) {
+  async sendEmailNotification(email: string, data: MessageData) {
+    const to: MessageRecipient = { email };
     return this.send(TEMPLATES.email, to, data);
   }
 
-  async sendPushNotification(firebaseToken: string, data: PushData) {
+  async sendPushNotification(firebaseToken: string, data: MessageData) {
     return this.send(TEMPLATES.push, { firebaseToken }, data);
+  }
+
+  async sendInAppNotification(userId: string, data: MessageData) {
+    const to: MessageRecipient = {
+      user_id: userId,
+      courier: {
+        channel: userId
+      }
+    };
+
+    console.dir(to);
+    return this.send(TEMPLATES.inapp, to, data);
   }
 }
 

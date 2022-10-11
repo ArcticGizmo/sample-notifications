@@ -20,14 +20,22 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 router.post('/email', async (req: Request, res: Response) => {
-  await Courier.sendEmailNotification(
-    { email: req.body.email },
-    {
-      subject: req.body.subject as string,
-      name: req.body.name as string,
-      payload: req.body.payload as string
-    }
-  );
+  await Courier.sendEmailNotification(req.body.email, {
+    subject: req.body.subject as string,
+    name: req.body.name as string,
+    payload: req.body.payload as string
+  });
+
+  res.sendStatus(200);
+});
+
+router.post('/in-app', async (req: Request, res: Response) => {
+  const userId = req.body.userId;
+  await Courier.sendInAppNotification(userId, {
+    subject: req.body.subject as string,
+    name: req.body.name as string,
+    payload: req.body.payload as string
+  });
 
   res.sendStatus(200);
 });

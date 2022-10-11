@@ -76,12 +76,20 @@ class HttpService {
     return this._w('courier/email').post({ ...payload, email });
   }
 
+  async sendCourierInApp(userId: string, payload: CourierPayload) {
+    return this._w('courier/in-app').post({ ...payload, userId });
+  }
+
   async sendMagicBellPush(email: string, payload: MagicBellPayload) {
     return this._w('magicbell').post({ ...payload, email });
   }
 
   async sendMagicBellEmail(email: string, payload: MagicBellPayload) {
     return this._w('magicbell/email').post({ ...payload, email });
+  }
+
+  async sendMagicBellInApp(email: string, payload: MagicBellPayload) {
+    return this._w('magicbell/in-app').post({ ...payload, email });
   }
 }
 

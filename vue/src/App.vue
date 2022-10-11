@@ -1,11 +1,17 @@
 <template>
   <div id="app">
+    <MagicBell />
+    <CourierVueToast />
+    <CourierVueInbox />
     <Layout />
   </div>
 </template>
 
 <script setup lang="ts">
 import Layout from '@/layout/Layout.vue';
+import CourierVueToast from './components/CourierVueToast.vue';
+import CourierVueInbox from './components/CourierVueInbox.vue';
+import MagicBell from './components/MagicBell.vue';
 </script>
 
 <style>
@@ -22,17 +28,6 @@ import Layout from '@/layout/Layout.vue';
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-}
-
-button {
-  cursor: pointer;
-  min-width: 4rem;
-  height: 1.5rem;
-  background-color: #3fb27f;
-  color: white;
-  box-shadow: none;
-  border: none;
-  box-shadow: 1px 1px 2px grey;
 }
 
 button:hover {

@@ -23,6 +23,16 @@
       <input v-model="email" />
     </div>
     <CourierMessageComposer @send="onSendEmail" />
+
+    <div class="separator"></div>
+
+    <h3>In-App</h3>
+
+    <div>
+      <label>User Id</label>
+      <input v-model="userId" />
+    </div>
+    <CourierMessageComposer @send="onSendInApp" />
   </div>
 </template>
 
@@ -34,7 +44,8 @@ import { useToast } from 'vue-toastification';
 
 const aliases = ref<string[]>([]);
 const selectedAlias = ref<string>();
-const email = ref<string>('');
+const email = ref('');
+const userId = ref('');
 
 const toast = useToast();
 
@@ -58,8 +69,21 @@ const onSendToDevice = async (payload: CourierComposerPayload) => {
 };
 
 const onSendEmail = async (payload: CourierComposerPayload) => {
+  if (!email.value) {
+    toast.warning('Email required');
+    return;
+  }
   await Http.sendCourierEmail(email.value, payload);
   toast.success(`Email send to'${email.value}'!`, { timeout: 2000 });
+};
+
+const onSendInApp = async (payload: CourierComposerPayload) => {
+  if (!userId.value) {
+    toast.warning('UserId required');
+    return;
+  }
+  await Http.sendCourierInApp(userId.value, payload);
+  toast.success(`In-App message send user'${userId.value}'!`, { timeout: 2000 });
 };
 
 onMounted(() => {
