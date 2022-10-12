@@ -12,7 +12,7 @@ import { Courier } from 'courier-vue-embedded';
 
 Courier.init({
   clientKey: import.meta.env['VITE_COURIER_CLIENT_KEY'],
-  userId: 'Github_18655632'
+  userId: import.meta.env['VITE_COURIER_USER_ID']
 });
 
 const app = createApp(App).use(router).use(Toast);

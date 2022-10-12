@@ -10,7 +10,7 @@ const container = ref();
 
 const options = {
   apiKey: import.meta.env['VITE_MAGIC_BELL_API_KEY'],
-  userEmail: 'jon.howell314@gmail.com'
+  userEmail: import.meta.env['VITE_MAGIC_BELL_EMAIL']
 };
 
 onMounted(() => {
