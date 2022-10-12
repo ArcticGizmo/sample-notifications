@@ -8,7 +8,7 @@ import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-import { Courier } from '@/components/courier';
+import { Courier } from 'courier-vue-embedded';
 
 Courier.init({
   clientKey: import.meta.env['VITE_COURIER_CLIENT_KEY'],

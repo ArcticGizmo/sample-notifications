@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <MagicBell />
-    <CourierVueToast />
-    <CourierVueInbox />
+    <CourierToastVue />
+    <CourierInboxVue />
     <Layout />
   </div>
 </template>
 
 <script setup lang="ts">
 import Layout from '@/layout/Layout.vue';
-import CourierVueToast from './components/CourierVueToast.vue';
-import CourierVueInbox from './components/CourierVueInbox.vue';
+import { CourierToastVue, CourierInboxVue } from 'courier-vue-embedded';
+
 import MagicBell from './components/MagicBell.vue';
 </script>
 
@@ -32,5 +32,14 @@ import MagicBell from './components/MagicBell.vue';
 
 button:hover {
   opacity: 0.9;
+}
+</style>
+
+<style scoped>
+courier-inbox {
+  position: fixed;
+  z-index: 1000000;
+  right: 2rem;
+  top: 1rem;
 }
 </style>
