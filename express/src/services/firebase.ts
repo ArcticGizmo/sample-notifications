@@ -49,6 +49,15 @@ class FirebaseNotifications {
     return this._messaging.send(message, dryRun);
   }
 
+  async sendToToken(token: string, payload: MessagingPayload, opts?: MessagingOptions) {
+    const resp = await this._messaging.sendToDevice(token, payload, opts);
+    if (resp.failureCount) {
+      throw resp;
+    }
+
+    return resp;
+  }
+
   async sendToDevice(alias: string, payload: MessagingPayload, opts?: MessagingOptions) {
     const token = this._lookup[alias];
 
@@ -56,7 +65,8 @@ class FirebaseNotifications {
       console.error(`[Firebase] No alias found for '${alias}`);
       return;
     }
-    return this._messaging.sendToDevice(token, payload, opts);
+
+    return this.sendToToken(token, payload, opts);
   }
 
   async sendToDevices(aliases: string[], payload: MessagingPayload, opts?: MessagingOptions) {

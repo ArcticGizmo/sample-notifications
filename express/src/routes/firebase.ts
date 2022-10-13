@@ -37,4 +37,25 @@ router.get('/test', async (req: Request, res: Response) => {
   res.sendStatus(202);
 });
 
+router.post('/send-to-token', async (req: Request, res: Response) => {
+  const token = req.body.token;
+
+  console.log(`[Firebase] sending to '${token}'`);
+  const data = { score: '1000' };
+  const notification = {
+    title: `Test broadcast`,
+    body: 'Test body'
+  };
+  const payload = { data, notification };
+  Firebase.sendToToken(token, payload)
+    .then(() => {
+      res.sendStatus(202);
+    })
+    .catch(e => {
+      console.error(e);
+      console.error(e.results);
+      res.sendStatus(500);
+    });
+});
+
 export { router as firebaseRouter };

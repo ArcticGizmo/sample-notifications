@@ -3,6 +3,7 @@
     <ion-button @click="onRequestPermissions()">Request Permissions</ion-button>
     <ion-button @click="onCheckPermissions()">Check Permissions</ion-button>
     <br />
+    <ion-button @click="onCopyToken()">Copy Token</ion-button>
     <ion-button @click="onRegisterDevice()">Register Device</ion-button>
     <ion-button @click="onUnregisterDevice()">Unregister Device</ion-button>
     <br />
@@ -25,6 +26,12 @@ const onRequestPermissions = async () => {
 const onCheckPermissions = async () => {
   const resp = await NotificationClient.checkPermissions();
   await toast(`Permissions: ${resp}`);
+};
+
+const onCopyToken = async () => {
+  const token = await NotificationClient.getToken();
+  await navigator.clipboard.writeText(token);
+  await toast('Token copied to clipboard');
 };
 
 const onRegisterDevice = async () => {

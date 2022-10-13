@@ -1,5 +1,8 @@
 <template>
   <div class="firebase-page">
+    <h3>Send to Token</h3>
+    <div><input type="text" v-model="toToken" /><button @click="onSendToToken()">Send</button></div>
+
     <h3>Send to Device</h3>
     <div class="aliases">
       <button
@@ -34,6 +37,7 @@ const TOPIC = 'general_alerts';
 
 const aliases = ref<string[]>([]);
 const selectedAlias = ref<string>();
+const toToken = ref('');
 
 const toast = useToast();
 
@@ -63,6 +67,20 @@ const onSendToDevice = async (payload: FirebaseComposerPayload) => {
 const onBroadcast = async (payload: FirebaseComposerPayload) => {
   await Http.sendFirebaseBroadcast(TOPIC, { data: payload.data }, { title: payload.heading, body: payload.message });
   toast.success(`Message broadcast to '${selectedAlias.value}'!`, { timeout: 2000 });
+};
+
+const onSendToToken = async () => {
+  if (!toToken.value) {
+    toast.warning('No token entered!');
+    return;
+  }
+
+  try {
+    await Http.sendFirebaseTestByToken(toToken.value);
+    toast.success('Message send to token!', { timeout: 2000 });
+  } catch (error) {
+    toast.error('Unable to send to token!', { timeout: 2000 });
+  }
 };
 
 onMounted(() => {

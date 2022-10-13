@@ -60,36 +60,52 @@ class HttpService {
     return this._w('mobile/registered').get().json();
   }
 
+  async sendFirebaseTestByToken(token: string) {
+    return this._w('firebase/send-to-token').post({ token }).res();
+  }
+
   async sendFirebasePush(alias: string, data: MessageData, notification: NotificationData) {
-    return this._w('firebase').post({ alias, data, notification });
+    return this._w('firebase').post({ alias, data, notification }).res();
   }
 
   async sendFirebaseBroadcast(topic: string, data: MessageData, notification: NotificationData) {
-    return this._w('firebase/broadcast').post({ topic, data, notification });
+    return this._w('firebase/broadcast').post({ topic, data, notification }).res();
   }
 
   async sendCourierPush(alias: string, payload: CourierPayload) {
-    return this._w('courier').post({ ...payload, alias });
+    return this._w('courier')
+      .post({ ...payload, alias })
+      .res();
   }
 
   async sendCourierEmail(email: string, payload: CourierPayload) {
-    return this._w('courier/email').post({ ...payload, email });
+    return this._w('courier/email')
+      .post({ ...payload, email })
+      .res();
   }
 
   async sendCourierInApp(userId: string, payload: CourierPayload) {
-    return this._w('courier/in-app').post({ ...payload, userId });
+    return this._w('courier/in-app')
+      .post({ ...payload, userId })
+      .res();
   }
 
   async sendMagicBellPush(email: string, payload: MagicBellPayload) {
-    return this._w('magicbell').post({ ...payload, email });
+    return this._w('magicbell')
+      .post({ ...payload, email })
+      .res();
   }
 
   async sendMagicBellEmail(email: string, payload: MagicBellPayload) {
-    return this._w('magicbell/email').post({ ...payload, email });
+    return this._w('magicbell/email')
+      .post({ ...payload, email })
+      .res();
   }
 
   async sendMagicBellInApp(email: string, payload: MagicBellPayload) {
-    return this._w('magicbell/in-app').post({ ...payload, email });
+    return this._w('magicbell/in-app')
+      .post({ ...payload, email })
+      .res();
   }
 }
 
