@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "setup": "yarn install && yarn build",
+    "setup:firebase": "node ./scripts/configure-firebase.js",
     "serve": "vue-cli-service serve --port 8100",
     "dev": "ionic cap run android -l --external",
     "build": "vue-cli-service build",
